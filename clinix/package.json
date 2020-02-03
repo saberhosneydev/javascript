@@ -1,0 +1,31 @@
+{
+  "name": "@pro_devel/clinix",
+  "version": "0.0.1",
+  "description": "a very basic CLI to build yours on .",
+  "main": "bin/index.js",
+  "bin": {
+    "clinix": "bin/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pro-devel/clinix.git"
+  },
+  "keywords": [
+    "cli",
+    "clinix",
+    "basic"
+  ],
+  "author": "Saber Hosney",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pro-devel/clinix/issues"
+  },
+  "homepage": "https://github.com/pro-devel/clinix#readme",
+  "dependencies": {
+    "shelljs": "^0.7.8",
+    "yargs": "^9.0.1"
+  }
+}
