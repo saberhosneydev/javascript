@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>VueJS-FireBase-Lists</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+		integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+	<style>
+		.gg-close {
+			box-sizing: border-box;
+			position: relative;
+			display: block;
+			transform: scale(var(--ggs, 1));
+			width: 22px;
+			height: 22px;
+			border: 2px solid transparent;
+			border-radius: 40px
+		}
+
+		.gg-close::after,
+		.gg-close::before {
+			content: "";
+			display: block;
+			box-sizing: border-box;
+			position: absolute;
+			width: 16px;
+			height: 2px;
+			background: currentColor;
+			transform: rotate(45deg);
+			border-radius: 5px;
+			top: 8px;
+			left: 1px
+		}
+
+		.gg-close::after {
+			transform: rotate(-45deg)
+		}
+
+		.gg-trash {
+			box-sizing: border-box;
+			position: relative;
+			display: block;
+			transform: scale(var(--ggs, 1));
+			width: 10px;
+			height: 12px;
+			border: 2px solid transparent;
+			box-shadow:
+				0 0 0 2px,
+				inset -2px 0 0,
+				inset 2px 0 0;
+			border-bottom-left-radius: 1px;
+			border-bottom-right-radius: 1px;
+			margin-top: 4px
+		}
+
+		.gg-trash::after,
+		.gg-trash::before {
+			content: "";
+			display: block;
+			box-sizing: border-box;
+			position: absolute
+		}
+
+		.gg-trash::after {
+			background: currentColor;
+			border-radius: 3px;
+			width: 16px;
+			height: 2px;
+			top: -4px;
+			left: -5px
+		}
+
+		.gg-trash::before {
+			width: 10px;
+			height: 4px;
+			border: 2px solid;
+			border-bottom: transparent;
+			border-top-left-radius: 2px;
+			border-top-right-radius: 2px;
+			top: -7px;
+			left: -2px
+		}
+
+		a {
+			text-decoration: none !important
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<nav class="navbar navbar-dark bg-dark">
+			<div class="container">
+				<div class="col-2">
+					<a class="navbar-brand" href="/">VueJS Firebase Lists</a>
+				</div>
+				<template v-if="loggedIn">
+					<div class="col offset-9">
+						<a class="btn btn-dark" href="#" v-on:click="signout">Logout</a>
+					</div>
+				</template>
+				<template v-else>
+					<div class="col offset-8">
+						<a class="btn btn-dark" href="./login.html" role="button" data-toggle="modal"
+							data-target="#loginModal">Login</a><span class="text-light"> /
+						</span><a class="btn btn-dark" href="./register.html" role="button" data-toggle="modal"
+							data-target="#registerModal">Register</a>
+					</div>
+				</template>
+
+			</div>
+		</nav>
+		<template v-if="loggedIn">
+			<div class="container-fluid mt-3">
+				<div class="row">
+
+					<div class="col-3">
+						<div class="card">
+							<div class="card-header">
+								<span class="float-left pt-1">Lists</span>
+								<a href="#" class="btn btn-primary btn-sm float-right " data-toggle="modal"
+									data-target="#createListModal" role="button">New</a>
+							</div>
+							<ul class="list-group list-group-flush" id="listsTable">
+
+							</ul>
+						</div>
+					</div>
+					<div class="col-3">
+						<div class="card">
+							<div class="card-header">
+								<span class="float-left pt-1" id="itemsHeader">Items</span>
+								<a href="#" class="btn btn-primary btn-sm float-right" data-toggle="modal"
+									data-target="#createItemModal" role="button">New</a>
+								<div class="clearfix"></div>
+							</div>
+							<!-- <div class="card-body">
+								Create a new item to get started.
+							</div> -->
+							<ul class="list-group list-group-flush" id="itemsTable">
+								<li class="list-group-item"><a href="#" class="link-dark">Select a list to get
+										started</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-6">
+						<div class="card">
+							<div class="card-header">
+								<span class="float-left pt-1">Item Details</span>
+								<a href="#" class="btn btn-danger btn-sm float-right">Delete</a>
+								<div class="clearfix"></div>
+							</div>
+							<div class="card-body">
+								Nothing to show at the moment!
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</template>
+		<template v-else>
+			<div class="text-center" style="margin-top: 50vh;position: relative;transform: translateY(-200%);">
+				<h3>
+					{{message}}</h3>
+			</div>
+		</template>
+		<!-- Create List Modal -->
+		<div class="modal fade" id="createListModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title h5 font-weight-normal">Create a new list</h1>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="text-center">
+							<form class="form-signin" v-on:submit="createList">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="List name" id="listName"
+										aria-label="Recipient's username" aria-describedby="button-addon2">
+									<button class="btn btn-outline-secondary" type="submit"
+										id="button-addon2">Create</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Create Item Modal -->
+		<div class="modal fade" id="createItemModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title h5 font-weight-normal">Create a new item</h1>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="text-center">
+							<form class="form-signin" v-on:submit="login">
+								<div class="mb-3">
+									<input type="email" class="form-control" id="itemName" placeholder="Item name">
+								</div>
+								<div class="mb-3">
+									<textarea class="form-control" id="itemDesc" rows="3"
+										placeholder="Item description, HTML code can be used for formating"></textarea>
+								</div>
+								<button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Login Modal -->
+		<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title h5 font-weight-normal">Login</h1>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="text-center">
+							<form class="form-signin" v-on:submit="login">
+								<label for="inputEmail" class="sr-only">Email address</label>
+								<input type="email" id="inputEmail" class="form-control mb-2"
+									placeholder="Email address" required autofocus>
+								<label for="inputPassword" class="sr-only">Password</label>
+								<input type="password" id="inputPassword" class="form-control mb-2"
+									placeholder="Password" required>
+								<button class="btn btn-lg btn-primary btn-block" type="submit">Sign
+									in</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Register Modal -->
+		<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title h5 font-weight-normal">Register</h1>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="text-center">
+							<form class="form-signin" v-on:submit="register">
+								<label for="inputEmail" class="sr-only">Email address</label>
+								<input type="email" id="inputEmailRegister" class="form-control mb-2"
+									placeholder="Email address" required autofocus>
+								<label for="inputPassword" class="sr-only">Password</label>
+								<div class="input-group">
+									<input type="password" id="inputPasswordRegister" class="form-control"
+										placeholder="Password - at least 6 characters" required oninput="checkLength()">
+									<span class="input-group-text">
+										<svg v-if="passwordLength > 5" style="color: green;" class="bi bi-check2"
+											width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+											xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd"
+												d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
+										</svg>
+										<i class="gg-close" style="color: red;" v-else></i>
+									</span>
+
+								</div>
+								<button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Sign
+									up</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Confirm Delete Modal -->
+		<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Confirm deletion ?</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.15.3/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.15.3/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.15.3/firebase-analytics.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+		integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+		crossorigin="anonymous"></script>
+	<!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+	<script src="./js/client.js"></script>
+</body>
+
+</html>
