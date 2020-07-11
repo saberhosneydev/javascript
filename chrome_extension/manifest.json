@@ -1,0 +1,18 @@
+{
+  "name": "The name that appears on chrome store and extension manager",
+  "description": "Some description",
+  "version": "1.0",
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "<all_urls>",
+    "http://*/*",
+    "https://*/*"
+  ],
+  "browser_action": {
+      "default_title": "Title appears on hover",
+      "default_icon": "icon.png",
+      "default_popup": "popup.html"
+  },
+  "manifest_version": 2
+}
