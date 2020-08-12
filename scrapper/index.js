@@ -1,14 +1,21 @@
 global.axios = require("axios");
 global.fs = require("fs");
 global.cheerio = require("cheerio");
-global.currentWorkingUrls = [];
 const { getCategories } = require("./modules/getCategories");
-const { subCategories } = require("./modules/subCategories");
+const { categoriesSubLinks } = require("./modules/categoriesSubLinks");
 
 const baseURL = "https://www.materielelectrique.com";
-getCategories(baseURL).then(() => {
-    currentWorkingUrls.forEach(element => {
-        subCategories(baseURL + element).then(() => console.log("Success"));
-    });
 
+global.currentWorkingUrls = new Proxy([], {
+    get: function (target, property) {
+        return target[property];
+    },
+    set: function (target, property, value) {
+        categoriesSubLinks(baseURL + value);
+        target[property] = value;
+        return true;
+    }
 });
+if (process.argv0 == "--task=grab") {
+    getCategories(baseURL);
+}
