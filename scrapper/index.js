@@ -19,5 +19,25 @@ if (process.argv[2] == "--task=categories") {
     getCategories(baseURL);
 }
 if(process.argv[2] == "--task=products"){
-    getProductsUrls(baseURL + '/finition-bois-tabac-c-100073_100673_100682_100694_100715_100716_100719.html');
+    global.currentWorkingUrls = new Proxy([], {
+        get: function (target, property) {
+            return target[property];
+        },
+        set: function (target, property, value) {
+            getProductsUrls(baseURL + value);
+            target[property] = value;
+            return true;
+        }
+    });
+    fs.readFile('./csv/urls.csv', {encoding: 'utf-8'}, function(err,data){
+        if (!err) {
+            const processed = data.split(',');
+            processed.forEach(url => {
+                currentWorkingUrls.push(url);
+            });
+        } else {
+            console.log(err);
+        }
+    });
+    
 }
