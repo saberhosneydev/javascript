@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "grab": "node --unhandled-rejections=none index.js --task=grab"
+    "categories": "node --unhandled-rejections=none index.js --task=categories",
+    "products": "node --unhandled-rejections=none index.js --task=products"
   },
   "keywords": [],
   "author": "",
