@@ -1,7 +1,7 @@
 global.axios = require("axios");
 global.fs = require("fs");
 global.cheerio = require("cheerio");
-const { getCategories,categoriesSubLinks } = require("./modules/categoriesUrls");
+const { getCategories, categoriesSubLinks } = require("./modules/categoriesUrls");
 const { getProductsUrls } = require("./modules/productsUrls");
 const baseURL = "https://www.materielelectrique.com";
 
@@ -18,7 +18,7 @@ if (process.argv[2] == "--task=categories") {
     });
     getCategories(baseURL);
 }
-if(process.argv[2] == "--task=products"){
+if (process.argv[2] == "--task=products") {
     global.currentWorkingUrls = new Proxy([], {
         get: function (target, property) {
             return target[property];
@@ -29,15 +29,16 @@ if(process.argv[2] == "--task=products"){
             return true;
         }
     });
-    fs.readFile('./csv/urls.csv', {encoding: 'utf-8'}, function(err,data){
+    fs.readFile('./csv/urls.csv', { encoding: 'utf-8' }, function (err, data) {
         if (!err) {
             const processed = data.split(',');
             processed.forEach(url => {
-                currentWorkingUrls.push(url);
+                let filterd = url.replace("\n", "");
+                currentWorkingUrls.push(filterd);
             });
         } else {
             console.log(err);
         }
     });
-    
+
 }
