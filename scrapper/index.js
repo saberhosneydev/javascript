@@ -29,12 +29,14 @@ if (process.argv[2] == "--task=products") {
             return true;
         }
     });
-    fs.readFile('./csv/urls.csv', { encoding: 'utf-8' }, function (err, data) {
+    fs.readFile('./csv/urls.csv', { encoding: "utf-8" }, function (err, data) {
         if (!err) {
             const processed = data.split(',');
             processed.forEach(url => {
                 let filterd = url.replace("\n", "");
-                currentWorkingUrls.push(filterd);
+                setTimeout(() => {
+                    currentWorkingUrls.push(filterd);
+                }, 10000);
             });
         } else {
             console.log(err);
