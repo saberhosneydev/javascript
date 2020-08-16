@@ -3,6 +3,7 @@ global.fs = require("fs");
 global.cheerio = require("cheerio");
 const { getCategories, categoriesSubLinks } = require("./modules/categoriesUrls");
 const { getProductsUrls } = require("./modules/productsUrls");
+const { getProductsData } = require("./modules/productsData");
 const baseURL = "https://www.materielelectrique.com";
 
 if (process.argv[2] == "--task=categories") {
@@ -42,17 +43,12 @@ if (process.argv[2] == "--task=products") {
 				let url = processed[i];
 				let filterd = url.replace("\n", "");
 				currentWorkingUrls.push(filterd);
-				if (i >= 1901) {
+				if (i >= processed.length) {
 					clearInterval(delay);
 				}else {
 					i +=1;
 				}
 			}, 2000);
-			// processed.forEach(url => {
-			// 	let filterd = url.replace("\n", "");
-			// 	currentWorkingUrls.push(filterd);
-			// 	sleep(2000);
-			// });
 		} else {
 			console.log(err);
 		}
@@ -62,19 +58,17 @@ if (process.argv[2] == "--task=data") {
 	function sleep(ms) {
 		return new Promise(resolve => setTimeout(resolve, ms));
 	}
-
-
 	global.currentWorkingUrls = new Proxy([], {
 		get: function (target, property) {
 			return target[property];
 		},
 		set: function (target, property, value) {
-			getProductsUrls(baseURL + value);
+			getProductsData(baseURL + value);
 			target[property] = value;
 			return true;
 		}
 	});
-	fs.readFile('./csv/urls.csv', { encoding: "utf-8" }, function (err, data) {
+	fs.readFile('./csv/productsUrls.csv', { encoding: "utf-8" }, function (err, data) {
 		if (!err) {
 			const processed = data.split(',');
 			let i = 0;
@@ -82,17 +76,12 @@ if (process.argv[2] == "--task=data") {
 				let url = processed[i];
 				let filterd = url.replace("\n", "");
 				currentWorkingUrls.push(filterd);
-				if (i >= 1901) {
+				if (i >= processed.length) {
 					clearInterval(delay);
 				}else {
 					i +=1;
 				}
 			}, 2000);
-			// processed.forEach(url => {
-			// 	let filterd = url.replace("\n", "");
-			// 	currentWorkingUrls.push(filterd);
-			// 	sleep(2000);
-			// });
 		} else {
 			console.log(err);
 		}
