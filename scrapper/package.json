@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "categories": "node --unhandled-rejections=none index.js --task=categories",
-    "products": "node --unhandled-rejections=none index.js --task=products"
+    "products": "node --unhandled-rejections=none index.js --task=products",
+    "data": "node --unhandled-rejections=none index.js --task=data"
   },
   "keywords": [],
   "author": "",
