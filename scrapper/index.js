@@ -86,22 +86,31 @@ if (process.argv[2] == "--task=processUrls") {
 
 }
 if (process.argv[2] == "--task=obtainData") {
-	function sleep(ms) {
-		return new Promise(resolve => setTimeout(resolve, ms));
-	}
-	async function processUrl(index, arr) {
-		await getProductsData(baseURL + arr[index]).then(() => {
-			if (index == (arr.length - 1)) {
-				return true;
-			} else {
-				processUrl(index++, arr);
-			}
-		});
-	}
+	let currentWorkingUrls = [];
+	currentWorkingUrls = new Proxy([], {
+		get: function (target, property) {
+			return target[property];
+		},
+		set: function (target, property, value) {
+			getProductsData(baseURL + value);
+			target[property] = value;
+			return true;
+		}
+	});
 	fs.readFile('./csv/processed.csv', { encoding: "utf-8" }, function (err, data) {
 		if (!err) {
 			let processed = data.split(",");
-			processUrl(0, processed);
+			let i = 0;
+			let delay = setInterval(()=> {
+				let url = processed[i];
+				currentWorkingUrls.push(url);
+				console.log(i + "|" + url);
+				if (i  == (processed.length-1)) {
+					clearInterval(delay);
+				}else {
+					i++;
+				}
+			}, 2000);
 		} else {
 			console.log(err);
 		}
