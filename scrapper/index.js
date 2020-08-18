@@ -40,20 +40,20 @@ if (process.argv[2] == "--task=products") {
 			let processed = data.split(',');
 			let i = 0;
 			processed.pop();
-			let delay = setInterval(()=> {
+			let delay = setInterval(() => {
 				let url = processed[i];
 				let filterd;
 				if (url.includes("\n")) {
 					filterd = url.replace("\n", "");
-				}else {
+				} else {
 					filterd = url;
 				}
 				currentWorkingUrls.push(filterd);
 				if (i >= processed.length) {
 
 					clearInterval(delay);
-				}else {
-					i +=1;
+				} else {
+					i += 1;
 				}
 			}, 2000);
 		} else {
@@ -61,43 +61,47 @@ if (process.argv[2] == "--task=products") {
 		}
 	});
 }
-if (process.argv[2] == "--task=data") {
-	function sleep(ms) {
-		return new Promise(resolve => setTimeout(resolve, ms));
-	}
-	global.currentWorkingUrls = new Proxy([], {
-		get: function (target, property) {
-			return target[property];
-		},
-		set: function (target, property, value) {
-			getProductsData(baseURL + value);
-			target[property] = value;
-			return true;
-		}
-	});
+if (process.argv[2] == "--task=processUrls") {
 	fs.readFile('./csv/productsUrls.csv', { encoding: "utf-8" }, function (err, data) {
 		if (!err) {
 			let processed = data.split(',');
 			processed.pop();
-			let i = 0;
-			let delay = setInterval(()=> {
-				let url = processed[i];
-				let filterd;
-				if (url != undefined) {
-					if (url.includes("\n")) {
-						filterd = url.replace("\n", "");
-						currentWorkingUrls.push(filterd);
-					}else {
-						filterd = url;
-						currentWorkingUrls.push(filterd);
-					}
+			let query = "";
+			processed.forEach((url, index) => {
+				url = url.replace("\n", "");
+				if (index == (processed.length - 1)) {
+					query += url;
+				} else {
+					query += url + ",";
 				}
-				if (i >= processed.length) {
-					clearInterval(delay);
-				}else {
-					i +=1;
-				}
-			}, 2000);
+
+			});
+			fs.appendFile("./csv/processed.csv", query, function (err) {
+				if (err) throw err;
+			});
+		} else {
+			console.log(err);
+		}
+	});
+
+}
+if (process.argv[2] == "--task=obtainData") {
+	function sleep(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms));
+	}
+	async function processUrl(index, arr) {
+		await getProductsData(baseURL + arr[index]).then(() => {
+			if (index == (arr.length - 1)) {
+				return true;
+			} else {
+				processUrl(index++, arr);
+			}
+		});
+	}
+	fs.readFile('./csv/processed.csv', { encoding: "utf-8" }, function (err, data) {
+		if (!err) {
+			let processed = data.split(",");
+			processUrl(0, processed);
 		} else {
 			console.log(err);
 		}
