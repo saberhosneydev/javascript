@@ -6,7 +6,8 @@
   "scripts": {
     "categories": "node --unhandled-rejections=none index.js --task=categories",
     "products": "node --unhandled-rejections=none index.js --task=products",
-    "data": "node --unhandled-rejections=none index.js --task=data"
+    "processUrls": "node --unhandled-rejections=none index.js --task=processUrls",
+    "obtainData": "node --unhandled-rejections=none index.js --task=obtainData"
   },
   "keywords": [],
   "author": "",
