@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0ae91b03-c2d8-432b-8ab0-705b6637d5f9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/components/CPU.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/Motherboard.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="tsconfig.json" />
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1hV47xIYOQqMAP3ZCRhA4tkw3FY" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="javascript.nodejs.core.library.configured.version" value="14.4.0" />
+    <property name="javascript.nodejs.core.library.typings.version" value="" />
+    <property name="nodejs_interpreter_path" value="node" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.tabs" />
+    <property name="ts.external.directory.path" value="C:\Users\Saber\AppData\Roaming\npm\node_modules\typescript\lib" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0ae91b03-c2d8-432b-8ab0-705b6637d5f9" name="Default Changelist" comment="" />
+      <created>1600082761742</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1600082761742</updated>
+      <workItem from="1600082764205" duration="6779000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/components/Motherboard.js" />
+        <option value="$PROJECT_DIR$/components/Motherboard.js.map" />
+        <option value="$PROJECT_DIR$/components/CPU.js" />
+        <option value="$PROJECT_DIR$/components/RAM.js.map" />
+        <option value="$PROJECT_DIR$/components/RAM.js" />
+        <option value="$PROJECT_DIR$/components/GPU.js" />
+        <option value="$PROJECT_DIR$/components/CPU.js.map" />
+        <option value="$PROJECT_DIR$/components/GPU.js.map" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="94" y="151" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1600084102436">
+      <screen x="0" y="0" width="1280" height="994" />
+    </state>
+    <state x="94" y="151" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.994@0.0.1280.994" timestamp="1600084102436" />
+    <state x="141" y="141" key="SettingsEditor" timestamp="1600084562899">
+      <screen x="0" y="0" width="1280" height="994" />
+    </state>
+    <state x="141" y="141" key="SettingsEditor/0.0.1280.994@0.0.1280.994" timestamp="1600084562899" />
+    <state x="346" y="96" width="587" height="801" key="find.popup" timestamp="1600084454294">
+      <screen x="0" y="0" width="1280" height="994" />
+    </state>
+    <state x="346" y="96" width="587" height="801" key="find.popup/0.0.1280.994@0.0.1280.994" timestamp="1600084454294" />
+    <state x="303" y="213" width="672" height="678" key="search.everywhere.popup" timestamp="1600089075125">
+      <screen x="0" y="0" width="1280" height="994" />
+    </state>
+    <state x="303" y="213" width="672" height="678" key="search.everywhere.popup/0.0.1280.994@0.0.1280.994" timestamp="1600089075125" />
+  </component>
+</project>
