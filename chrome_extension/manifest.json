@@ -1,8 +1,9 @@
 {
-  "name": "The name that appears on chrome store and extension manager",
-  "description": "Some description",
-  "version": "1.0",
+  "name": "PornMadeEasy",
+  "description": "An easy way to download pics from hosted porn sites",
+  "version": "2.0",
   "permissions": [
+    "contextMenus",
     "activeTab",
     "tabs",
     "<all_urls>",
@@ -10,9 +11,17 @@
     "https://*/*"
   ],
   "browser_action": {
-      "default_title": "Title appears on hover",
-      "default_icon": "icon.png",
-      "default_popup": "popup.html"
+    "default_title": "PornMadeEasy",
+    "default_icon": "icon.png"
   },
-  "manifest_version": 2
+  "manifest_version": 2,
+  "background": {
+    "persistent": false,
+    "scripts": [ "popup.js" ]
+  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  }
 }

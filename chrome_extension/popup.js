@@ -4,14 +4,21 @@
 
 'use strict';
 
-function clicked(){
+function performLogic(){
 	chrome.tabs.query({}, function(tabs) {
 		for (var i = 0; i < tabs.length; i++) {
-			chrome.tabs.executeScript(tabs[i].id, {file: "change.js"});
+			chrome.tabs.executeScript(tabs[i].id, {file: 'change.js'});
 		}
 	});
 }
-document.addEventListener('DOMContentLoaded', function () {
-	var btn = document.querySelector('#clickBTN');
-	btn.addEventListener('click', clicked);
+chrome.contextMenus.create({
+    id: "PreparePorn",
+    title: "PreparePorn",
+    contexts: ["all"]
+});
+
+chrome.contextMenus.onClicked.addListener(function(info, tab) {
+    if (info.menuItemId == "PreparePorn") {
+        performLogic();
+    }
 });

@@ -13,19 +13,17 @@ if (window.location.hostname == "imagetwist.com") {
 	document.querySelectorAll(".ddownloader")[0].click();
 }
 if (window.location.hostname == "ibb.co") {
-	document.querySelector(".btn-download").click();
 	if (window.location.href.startsWith("https://ibb.co/album/")) {
-	let original = window;
-	Array.from(document.querySelectorAll(".image-container")).forEach(image => {
-		window.open(`${image.children[0].src}`, "_blank");
-	});
-	setTimeout(() => {  original.close(); }, 1000);
+		Array.from(document.querySelectorAll(".image-container")).forEach(image => {
+			window.open(`${image.children[0].src}`, "_blank");
+		});
+	}else {
+		document.querySelector(".btn-download").click();
+	}
 }
-}
-if (window.location.hostname == "pixxxels.cc") {
-	document.getElementById("download").click();
-	setTimeout(() => {  window.close(); }, 1000);
 
+if (window.location.hostname == "pixxxels.cc") {
+	window.location = document.getElementById("download").href.slice(0, -5);
 }
 if (window.location.hostname == "www.uploadhouse.com") {
 	document.querySelectorAll("a").forEach(item => {
@@ -35,9 +33,8 @@ if (window.location.hostname == "www.uploadhouse.com") {
 		}
 	});
 }
-if (window.location.hostname == "forums.neswangy.net") {
-	if (window.location.href.startsWith("https://forums.neswangy.net/forumdisplay.php")) {
-		document.querySelectorAll("a").forEach(el => {
+if (window.location.href.startsWith("https://forums.neswangy.net/forumdisplay.php")) {
+	document.querySelectorAll("a").forEach(el => {
 		if(el.id.startsWith("thread_title")){
 			window.open(el.href);
 		}
@@ -45,6 +42,4 @@ if (window.location.hostname == "forums.neswangy.net") {
 	let url = new URL(window.location.href);
 	let pageNo = parseInt(url.searchParams.get("page"))+1;
 	window.location = "https://forums.neswangy.net/forumdisplay.php?f=15&order=desc&page=" + pageNo;
-	}
 }
-
