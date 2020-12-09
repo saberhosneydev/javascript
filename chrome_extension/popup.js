@@ -12,28 +12,30 @@ function performLogic(){
 
     });
 }
-let parent = chrome.contextMenus.create({
+chrome.contextMenus.create({
     id: "PreparePorn",
     title: "PreparePorn",
     contexts: ["all"]
 });
 
-let facebook = chrome.contextMenus.create({
+chrome.contextMenus.create({
     id: "downloadStory",
     title: "Download Story",
-    parentId: parent
+    parentId: "PreparePorn",
+    contexts: ["all"]
 });
 chrome.contextMenus.onClicked.addListener(function(info, tab) {
     if (info.menuItemId == "PreparePorn") {
         performLogic();
     }
     if (info.menuItemId == "downloadStory") {
+        console.log(tab.url);
         if (tab.url.includes("facebook.com")) {
             chrome.tabs.executeScript({
                 file: 'content_scripts/facebook.js'
             });
         }
-        if (tab.url.includes("instagram.com")) {
+        if (tab.url.includes("instagram.com/stories/")) {
             chrome.tabs.executeScript({
                 file: 'content_scripts/instagram.js'
             });
