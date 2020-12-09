@@ -33,13 +33,3 @@ if (window.location.hostname == "www.uploadhouse.com") {
 		}
 	});
 }
-if (window.location.href.startsWith("https://forums.neswangy.net/forumdisplay.php")) {
-	document.querySelectorAll("a").forEach(el => {
-		if(el.id.startsWith("thread_title")){
-			window.open(el.href);
-		}
-	});
-	let url = new URL(window.location.href);
-	let pageNo = parseInt(url.searchParams.get("page"))+1;
-	window.location = "https://forums.neswangy.net/forumdisplay.php?f=15&order=desc&page=" + pageNo;
-}

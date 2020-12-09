@@ -3,7 +3,6 @@
   "description": "An easy way to download pics from hosted porn sites",
   "version": "2.0",
   "permissions": [
-   "declarativeContent",
    "downloads",
    "contextMenus",
    "activeTab",
