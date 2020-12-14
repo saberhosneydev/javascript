@@ -4,7 +4,7 @@
 
 'use strict';
 
-let supportedSites = ["www.file-upload.com", "imagetwist.com", "ibb.co", "pixxxels.cc", "www.uploadhouse.com"];
+let supportedSites = ["www.file-upload.com", "imagetwist.com", "ibb.co", "pixxxels.cc", "www.uploadhouse.com","up4net.com"];
 let download_queue = [];
 function preparePorn(){
 	chrome.tabs.query({}, function(tabs) {
@@ -17,12 +17,14 @@ function preparePorn(){
 	download_queue = [];
 	setTimeout(() => {
 		chrome.tabs.query({}, function(tabs) {
+			let foundTabs = [];
 			for (var i = 0; i < tabs.length; i++) {
 				if (new RegExp(supportedSites.join("|")).test(new URL(tabs[i].url).hostname) && (tabs[i].url.includes(".jpg") || tabs[i].url.includes(".png"))) {
-					download_queue.push(tabs[i].url)
+					download_queue.push(tabs[i].url);
+					foundTabs.push(tabs[i].id);
 				}
 			}
-
+			chrome.tabs.remove(foundTabs);
 		});
 	}, 1000);
 }
