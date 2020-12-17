@@ -4,19 +4,19 @@
 
 'use strict';
 
-let supportedSites = ["www.file-upload.com", "imagetwist.com", "ibb.co", "pixxxels.cc", "www.uploadhouse.com","up4net.com"];
+let supportedSites = ["www.file-upload.com", "imagetwist.com", "ibb.co", "pixxxels.cc", "www.uploadhouse.com", "up4net.com"];
 let download_queue = [];
-function preparePorn(){
-	chrome.tabs.query({}, function(tabs) {
+function preparePorn() {
+	chrome.tabs.query({}, function (tabs) {
 		for (var i = 0; i < tabs.length; i++) {
 			if (new RegExp(supportedSites.join("|")).test(new URL(tabs[i].url).hostname)) {
-				chrome.tabs.executeScript(tabs[i].id, {file: 'change.js'});
+				chrome.tabs.executeScript(tabs[i].id, { file: 'change.js' });
 			}
 		}
 	});
 	download_queue = [];
 	setTimeout(() => {
-		chrome.tabs.query({}, function(tabs) {
+		chrome.tabs.query({}, function (tabs) {
 			let foundTabs = [];
 			for (var i = 0; i < tabs.length; i++) {
 				if (new RegExp(supportedSites.join("|")).test(new URL(tabs[i].url).hostname) && (tabs[i].url.includes(".jpg") || tabs[i].url.includes(".png"))) {
@@ -28,7 +28,7 @@ function preparePorn(){
 		});
 	}, 1000);
 }
-chrome.contextMenus.onClicked.addListener(function(info, tab) {
+chrome.contextMenus.onClicked.addListener(function (info, tab) {
 	if (info.menuItemId == "PreparePorn") {
 		preparePorn();
 	}
@@ -37,18 +37,35 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
 			let file = "";
 			if (item.includes(".jpg")) {
 				file = "savedImages/file.jpg"
-			}else {
+			} else {
 				file = "savedImages/file.png"
 			}
-			chrome.downloads.download ({
+			chrome.downloads.download({
 				url: item,
 				filename: file,
 				saveAs: false
 			});
 		})
 	}
+	if (info.menuItemId == "downloadImagesFromWallhaven") {
+		chrome.tabs.query({}, function (tabs) {
+			for (var i = 0; i < tabs.length; i++) {
+				if (new URL(tabs[i].url).href.includes("https://wallhaven.cc/w/")) {
+					chrome.tabs.executeScript(tabs[i].id, {
+						code: `
+						let imgUrl = document.querySelector("#wallpaper").src;
+						chrome.runtime.sendMessage (null, {
+						site: "wallhaven",
+						url: imgUrl
+					});` });
+				}
+			}
+		});
+	}
+
 	if (info.menuItemId == "navigateNeswangy") {
-		chrome.tabs.executeScript({ code: `if (window.location.href.startsWith("https://forums.neswangy.net/forumdisplay.php")) {
+		chrome.tabs.executeScript({
+			code: `if (window.location.href.startsWith("https://forums.neswangy.net/forumdisplay.php")) {
 			document.querySelectorAll("a").forEach(el => {
 				if(el.id.startsWith("thread_title")){
 					window.open(el.href);
@@ -75,7 +92,7 @@ chrome.contextMenus.onClicked.addListener(function(info, tab) {
 
 
 });
-chrome.runtime.onInstalled.addListener(function(details){
+chrome.runtime.onInstalled.addListener(function (details) {
 	chrome.contextMenus.create({
 		id: "SaberHosneyDev",
 		title: "SaberHosneyDev",
@@ -106,15 +123,32 @@ chrome.runtime.onInstalled.addListener(function(details){
 		parentId: "SaberHosneyDev",
 		contexts: ["all"]
 	});
+	chrome.contextMenus.create({
+		id: "downloadImagesFromWallhaven",
+		title: "Download Wallhaven images",
+		parentId: "SaberHosneyDev",
+		contexts: ["all"]
+	});
 });
 chrome.runtime.onMessage.addListener(function (message, sender) {
-	let date = new Date ();
-	let dateString = date.getFullYear () + "-" + date.getMonth () + "-" + date.getDay ();
-	let fileExtension = message.url.split ("?")[0].split (".").pop ();
+	if (message.site == "wallhaven") {
+		let file = new RegExp(/(wallhaven-.+)/g).exec(message.url)[0];
+		chrome.downloads.download({
+			url: message.url,
+			filename: `wallhaven/${file}`,
+			saveAs: false
+		});
+		chrome.tabs.remove(sender.tab.id);
+	} else {
+		let date = new Date();
+		let dateString = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay();
+		let fileExtension = message.url.split("?")[0].split(".").pop();
 
-	chrome.downloads.download ({
-		url: message.url,
-		filename: message.username + "'s " + message.site + " " + dateString + " story" + "." + fileExtension,
-		saveAs: true
-	});
+		chrome.downloads.download({
+			url: message.url,
+			filename: message.username + "'s " + message.site + " " + dateString + " story" + "." + fileExtension,
+			saveAs: true
+		});
+	}
+
 });
